@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<style>
+  html, body { margin: 0; height: 100%; background: transparent; overflow: hidden; }
+  #player { width: 100%; height: 100%; }
+</style>
+</head>
+<body>
+<div id="player"></div>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+  const START = 60, END = 480, VIDEO_ID = "qrdKk8LH4ow";
+  let player;
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player("player", {
+      videoId: VIDEO_ID,
+      playerVars: {
+        start: START, end: END, autoplay: 1, controls: 0,
+        rel: 0, modestbranding: 1, playsinline: 1,
+        origin: location.origin
+      },
+      events: {
+        onReady: e => e.target.playVideo(),
+        // remove this block if you don't want it to loop
+        onStateChange: e => {
+          if (e.data === YT.PlayerState.ENDED) {
+            player.seekTo(START, true);
+            player.playVideo();
+          }
+        }
+      }
+    });
+  }
+</script>
+</body>
+</html>
